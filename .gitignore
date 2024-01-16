@@ -1,0 +1,7 @@
+# Modules
+node_modules/
+
+# Build
+particles-darwin-x64/
+particles-linux-x64/
+particles-win32-x64/
