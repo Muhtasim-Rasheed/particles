@@ -1,0 +1,102 @@
+body {
+  background-color: #001;
+  color: white;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  flex-direction: column;
+}
+
+* {
+  font-family: Menlo, monospace;
+}
+
+h1 {
+  font-weight: normal;
+  text-decoration: underline;
+}
+
+canvas {
+  border-radius: 10px;
+  border: 2px solid #fff;
+  padding: 10px;
+}
+
+a {
+  cursor: pointer;
+  color: #3CC;
+}
+
+div {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 20px;
+}
+
+pre {
+  font-size: 1rem;
+  color: #556;
+}
+
+.popup {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  animation: fadeOut 3s ease-in-out forwards;
+}
+
+.stay {
+  animation: none;
+}
+
+button {
+  padding: 10px 20px;
+  border: 2px solid #fff;
+  background-color: #001;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+p {
+  line-height: 0;
+  margin: 0;
+  padding: 0;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #001;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3CC;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #5EE;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    display: none;
+  }
+}
