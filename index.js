@@ -235,7 +235,7 @@ function help() {
   
   <h1>UPCOMMING FOR 1.2</h1>
   <p>  (X) Multiple World Saving</p>
-  <p>  - Set Matrix Variable (like change the world)</p>
+  <p>  (X) Set Matrix Variable (like change the world)</p>
   <p>  - Pause Simulation</p>
   <p>  - And I guess more?</p>
   
