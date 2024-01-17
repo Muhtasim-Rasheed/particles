@@ -4,8 +4,10 @@ Current version is v1.1.3.
 
 ## Build Instructions
 ```
-$ npm install
-$ npm run package
+git clone https://github.com/Muhtasim-Rasheed/particles
+cd particles
+npm install
+npm run package
 ```
 Then you should have 3 folders:  
 `./particles-darwin-x64/`  
