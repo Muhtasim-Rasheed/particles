@@ -166,6 +166,60 @@ function load(worldName) {
   document.body.appendChild(popup)
 }
 
+function editMatrix() {
+  const popup = document.createElement("div")
+  const html = `
+  <h1>EDIT MATRIX</h1>
+  <p>Enter the new matrix</p>
+  <p>It must be a ${m}x${m} matrix</p>
+  <p>It must be a matrix of numbers between -1 and 1</p>
+  <p><span style="color: #FF0">[WARNING]</span> THIS FEATURE IS VERY BUGGY <span style="color: #FF0">[WARNING]</span></p>
+  <textarea id="matrix" placeholder="Matrix">[
+  [1,0,0,-1,0,-1],
+  [0,-1,-1,1,0,1],
+  [1,1,-1,0,-1,0],
+  [1,0,0,-1,0,-1],
+  [0,-1,-1,1,0,1],
+  [1,1,-1,0,-1,0]
+]</textarea>`
+  popup.classList.add("popup", "stay")
+  popup.innerHTML = html + "<button onclick='edit(document.getElementById(\"matrix\").value); closePopup()'>Edit</button><button onclick='closePopup()'>Cancel</button>"
+  document.body.appendChild(popup)
+}
+
+function edit(matrixInput) {
+  const newMatrix = JSON.parse(matrixInput)
+  if (Array.isArray(newMatrix) && newMatrix.every(row => Array.isArray(row))) {
+    newMatrix.forEach(row => {
+      if (row.length !== m) {
+        alert("Invalid matrix input!")
+        return
+      }
+      row.forEach(value => {
+        if (typeof value !== "number") {
+          alert("Invalid matrix input!")
+          return
+        }
+        if (value < -1 || value > 1) {
+          alert("Invalid matrix input!")
+          return
+        }
+      })
+    })
+    matrix = newMatrix
+    matrixInt = matrix.map(row => row.map(value => Math.floor(value * 1000) / 1000))
+    matrixAsString = JSON.stringify(matrixInt)
+      .replace(/(\]\]\,)\[/g, "]\n")
+      .replace(/(\[\[|\]\]|\")/g,"")
+      .replace(/\]\,/g, "],<br>")
+      .replace(/\-/g, "<span style='color: #F44'>-</span>")
+      .replace(/\,/g, "<span style='color: #334'>,</span>")
+    matrixDisplay.innerHTML = "<span style='color: #DDF'>matrix</span> = [<br><br>[" + matrixAsString + "]<br><br>]<span style='color: #DDF'>;</span>"
+  } else {
+    alert("Invalid matrix input!")
+  }
+}
+
 function help() {
   const popup = document.createElement("div")
   const html = `
@@ -197,7 +251,7 @@ function help() {
 function closePopup() {
   const popup = document.querySelector(".popup")
   popup.classList.remove("stay")
-  popup.remove()
+  document.body.removeChild(popup)
 }
 
 loop()
