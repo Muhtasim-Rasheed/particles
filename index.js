@@ -114,16 +114,38 @@ function force(r, a) {
   }
 }
 
-function save() {
-  localStorage.setItem("matrixDataSave", JSON.stringify(matrix))
+function saveWorld() {
   const popup = document.createElement("div")
-  popup.classList.add("popup")
-  popup.innerHTML = "Saved!"
+  const html = `
+  <h1>SAVE WORLD</h1>
+  <p>Enter a name for your world</p>
+  <input type="text" id="worldName" placeholder="World Name">`
+  popup.classList.add("popup", "stay")
+  popup.innerHTML = html + "<button onclick='save(document.getElementById(\"worldName\").value || \"World\"); closePopup()'>Save</button><button onclick='closePopup()'>Cancel</button>"
   document.body.appendChild(popup)
 }
 
-function load() {
-  const matrixDataSave = localStorage.getItem("matrixDataSave")
+function save(worldName) {
+  localStorage.setItem(worldName, JSON.stringify(matrix))
+  const popup = document.createElement("div")
+  popup.classList.add("popup")
+  popup.innerHTML = `Saved ${worldName}!`
+  document.body.appendChild(popup)
+}
+
+function loadWorld() {
+  const popup = document.createElement("div")
+  const html = `
+  <h1>LOAD WORLD</h1>
+  <p>Enter the name of the world you want to load</p>
+  <input type="text" id="worldName" placeholder="World Name">`
+  popup.classList.add("popup", "stay")
+  popup.innerHTML = html + "<button onclick='load(document.getElementById(\"worldName\").value || \"World\"); closePopup()'>Load</button><button onclick='closePopup()'>Cancel</button>"
+  document.body.appendChild(popup)
+}
+
+function load(worldName) {
+  const matrixDataSave = localStorage.getItem(worldName)
   if (matrixDataSave) {
     const matrixData = JSON.parse(matrixDataSave)
     if (matrixData.length === m && matrixData.every(row => row.length === m)) {
@@ -154,18 +176,17 @@ function help() {
   <p>The value in the matrix is the force between the two colors</p>
   <p>This simulator can:</p>
   <p>  - Create New Worlds</p>
-  <p>  - Save (Only 1 at a time) Worlds</p>
+  <p>  - Save Worlds</p>
   <p>  - Load Worlds</p>
   
   <h1>UPCOMMING FOR 1.2</h1>
-  <p>  - Multiple World Saving</p>
+  <p>  (X) Multiple World Saving</p>
   <p>  - Set Matrix Variable (like change the world)</p>
   <p>  - Pause Simulation</p>
   <p>  - And I guess more?</p>
   
   <h1>WARNINGS</h1>
   <p>  - The matrix cannot have undefined numbers</p>
-  <p>  - You can save only one world. Done. (I will add support for that in 1.2)</p>
   <p>  - This program is prone to computer bugs :P</p>
   `
   popup.classList.add("popup", "stay")

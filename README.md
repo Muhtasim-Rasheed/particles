@@ -1,6 +1,6 @@
 # Particles
 Particles is a simple particle life simulator. Thats it.  
-Current version is v1.1.
+Current version is v1.1.3.
 
 ## Build Instructions
 ```

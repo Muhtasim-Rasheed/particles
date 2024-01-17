@@ -75,6 +75,15 @@ p {
   padding: 0;
 }
 
+input {
+  padding: 10px 20px;
+  border: 2px solid #fff;
+  background-color: #00001155;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
 ::-webkit-scrollbar {
   width: 10px;
 }
