@@ -1,3 +1,10 @@
+const homeDir = window.os.homedir()
+const worldsDir = window.path.join(homeDir, "particles/Worlds")
+
+if (!window.fs.existsSync("~/particles/Worlds")) {
+  window.fs.mkdirSync(worldsDir, {recursive: true})
+}
+
 const canvas = document.querySelector(".screen")
 const ctx = canvas.getContext("2d")
 const matrixDisplay = document.querySelector(".matrix")
@@ -126,7 +133,8 @@ function saveWorld() {
 }
 
 function save(worldName) {
-  localStorage.setItem(worldName, JSON.stringify(matrix))
+  const saveData = JSON.stringify(matrix)
+  window.fs.writeFileSync(window.path.join(worldsDir, worldName + ".particleWorld"), saveData, "utf-8")
   const popup = document.createElement("div")
   popup.classList.add("popup")
   popup.innerHTML = `Saved ${worldName}!`
@@ -145,9 +153,9 @@ function loadWorld() {
 }
 
 function load(worldName) {
-  const matrixDataSave = localStorage.getItem(worldName)
-  if (matrixDataSave) {
-    const matrixData = JSON.parse(matrixDataSave)
+  const content = window.fs.readFileSync(window.path.join(worldsDir, worldName + ".particleWorld"), "utf-8")
+  const matrixData = JSON.parse(content)
+  if (matrixData) {
     if (matrixData.length === m && matrixData.every(row => row.length === m)) {
       matrix = matrixData
       matrixInt = matrix.map(row => row.map(value => Math.floor(value * 1000) / 1000))
