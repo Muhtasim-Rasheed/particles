@@ -27,6 +27,8 @@ const forceFactor = 10
 
 const frictionFactor = Math.pow(0.5, dt / frictionHalfLife)
 
+let isPaused = false
+
 function makeRandomMatrix() {
   const rows = []
   for (let i = 0; i < m; i++) {
@@ -53,18 +55,20 @@ for (let i = 0; i < n; i++) {
 }
 
 function loop() {
-  updateParticles()
+  if (!isPaused) {
+    updateParticles()
 
-  ctx.fillStyle = "#112"
-  ctx.fillRect(0, 0, canvas.width, canvas.height)
+    ctx.fillStyle = "#112"
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-  for (let i = 0; i < n; i++) {
-    ctx.beginPath()
-    const screenX = positionsX[i] * canvas.width
-    const screenY = positionsY[i] * canvas.height
-    ctx.arc(screenX, screenY, 2, 0, 2 * Math.PI)
-    ctx.fillStyle = `hsl(${360 * (colors[i] / m)}, 100%, 50%)`
-    ctx.fill()
+    for (let i = 0; i < n; i++) {
+      ctx.beginPath()
+      const screenX = positionsX[i] * canvas.width
+      const screenY = positionsY[i] * canvas.height
+      ctx.arc(screenX, screenY, 2, 0, 2 * Math.PI)
+      ctx.fillStyle = `hsl(${360 * (colors[i] / m)}, 100%, 50%)`
+      ctx.fill()
+    }
   }
 
   requestAnimationFrame(loop)
@@ -118,6 +122,18 @@ function force(r, a) {
     return a * (1 - Math.abs(2 * r - 1 - beta) / (1 - beta))
   } else {
     return 0
+  }
+}
+
+function togglePause() {
+  isPaused = !isPaused
+
+  let pauseButton = document.querySelector('.pause')
+
+  if (isPaused) {
+    pauseButton.textContent = 'Resume'
+  } else {
+    pauseButton.textContent = 'Pause'
   }
 }
 
@@ -176,20 +192,17 @@ function load(worldName) {
 
 function editMatrix() {
   const popup = document.createElement("div")
+  const defaultMatrix = JSON.stringify(matrixInt) // Stolen code from https://stackoverflow.com/questions/48287178/nested-array-to-string-javascript
+        .replace(/(\]\]\,)\[/g, "]\n")
+        .replace(/(\[\[|\]\]|\")/g,"")
+        .replace(/\]\,/g, "],\n")
   const html = `
   <h1>EDIT MATRIX</h1>
   <p>Enter the new matrix</p>
   <p>It must be a ${m}x${m} matrix</p>
   <p>It must be a matrix of numbers between -1 and 1</p>
   <p><span style="color: #FF0">[WARNING]</span> THIS FEATURE IS VERY BUGGY <span style="color: #FF0">[WARNING]</span></p>
-  <textarea id="matrix" placeholder="Matrix">[
-  [1,0,0,-1,0,-1],
-  [0,-1,-1,1,0,1],
-  [1,1,-1,0,-1,0],
-  [1,0,0,-1,0,-1],
-  [0,-1,-1,1,0,1],
-  [1,1,-1,0,-1,0]
-]</textarea>`
+  <textarea id="matrix" placeholder="Matrix">${"[\n[" + defaultMatrix + "]\n]"}</textarea>`
   popup.classList.add("popup", "stay")
   popup.innerHTML = html + "<button onclick='edit(document.getElementById(\"matrix\").value); closePopup()'>Edit</button><button onclick='closePopup()'>Cancel</button>"
   document.body.appendChild(popup)
@@ -240,12 +253,11 @@ function help() {
   <p>  - Create New Worlds</p>
   <p>  - Save Worlds</p>
   <p>  - Load Worlds</p>
+  <p>  - Edit the Matrix</p>
+  <p>  - Pause the Simulation</p>
   
   <h1>UPCOMMING FOR 1.2</h1>
-  <p>  (X) Multiple World Saving</p>
-  <p>  (X) Set Matrix Variable (like change the world)</p>
-  <p>  - Pause Simulation</p>
-  <p>  - And I guess more?</p>
+  <p>1.2 is here!</p>
   
   <h1>WARNINGS</h1>
   <p>  - The matrix cannot have undefined numbers</p>

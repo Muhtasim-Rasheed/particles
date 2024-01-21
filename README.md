@@ -1,10 +1,10 @@
 # Particles
 Particles is a simple particle life simulator. Thats it.  
-Current version is v1.1.8.
+Current version is v1.2!
 
-v1.1.8:
-- Migrated from localStorage to computer storage for extra space
-- Now creates a directory called "particles" in home directory
+v1.2:
+- Added "Pause" button
+- Edit menu now shows actual matrix array
 
 ## Build Instructions
 ```
