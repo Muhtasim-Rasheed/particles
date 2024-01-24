@@ -5,3 +5,6 @@ node_modules/
 particles-darwin-x64/
 particles-linux-x64/
 particles-win32-x64/
+
+# .DS_Store
+**/.DS_Store
